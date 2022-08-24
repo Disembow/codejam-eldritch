@@ -4,10 +4,62 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>My JS App</title>
-		<link rel="stylesheet" href="style.css" />
+		<title>Eldritch Horror Helper</title>
+		<link rel="stylesheet" href="./style.css"/>
 	</head>
 	<body>
-		<h1>My JS App</h1>
+		<header class="header">
+      <h1>Eldritch Horror Helper</h1>
+    </header>
+    <main class="main">
+      <h3>Выберите уровень сложности игры</h3>
+      <div class="ancients">
+        <img class="" src="./assets/Ancients/Azathoth.png" alt="Azathoth">
+        <img class="" src="./assets/Ancients/Cthulthu.png" alt="Cthulthu">
+        <img class="" src="./assets/Ancients/IogSothoth.png" alt="IogSothoth">
+        <img class="" src="./assets/Ancients/ShubNiggurath.png" alt="ShubNiggurath">
+      </div>
+        <h3>Выберите уровень сложности игры</h3>
+        <div class="difficulty-selection">
+          <div class="difficulty-level active">Очень лёгкая</div>
+          <div class="difficulty-level">Лёгкая</div>
+          <div class="difficulty-level">Средняя</div>
+          <div class="difficulty-level">Тяжелая</div>
+          <div class="difficulty-level">Очень тяжелая</div>
+        </div>
+        <div class="deck-container">
+          <div class="cards-counter">
+            <div class="stage-status">
+              <span class="stage-name">Первый этап</span>
+              <div class="stage-cards">
+                <div class="dots green"></div>
+                <div class="dots red"></div>
+                <div class="dots brown"></div>
+              </div>
+            </div>
+            <div class="stage-status">
+              <span class="stage-name">Второй этап</span>
+              <div class="stage-cards">
+                <div class="dots green"></div>
+                <div class="dots red"></div>
+                <div class="dots brown"></div>
+              </div>
+            </div>
+            <div class="stage-status">
+              <span class="stage-name">Третий этап</span>
+              <div class="stage-cards">
+                <div class="dots green"></div>
+                <div class="dots red"></div>
+                <div class="dots brown"></div>
+              </div>
+            </div>
+          </div>
+          <div class="cards-in-game"></div>
+        </div>
+    </main>
+    <footer class="footer">
+
+    </footer>
+    <script defer src="./index.js"></script>
 	</body>
 </html>
