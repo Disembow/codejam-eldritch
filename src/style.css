@@ -22,7 +22,8 @@ h6 {
 }
 
 .ancients img:hover,
-.difficulty-level:hover {
+.difficulty-level:hover,
+.cards-in-game img {
   cursor: pointer;
   transition: ease-in 0.3s;
 }
@@ -30,6 +31,9 @@ h6 {
   transform: scale(1.2);
 }
 .difficulty-level:hover {
+  transform: scale(1.05);
+}
+.cards-in-game img:hover {
   transform: scale(1.05);
 }
 
@@ -46,7 +50,7 @@ h6 {
 }
 
 .active {
-  border: 1px solid red;
+  border: 2px solid red;
 }
 
 .difficulty-selection {
@@ -60,10 +64,14 @@ h6 {
 .difficulty-level {
   width: 120px;
   padding: 3px;
-  border: 1px solid;
+  border: 1px solid #ffffff;
   background-color: #ffffff33;
   border-radius: 16px;
   transition: ease-in 0.3s;
+}
+
+.active2 {
+  color: red;
 }
 
 .deck-container {
@@ -107,13 +115,20 @@ h6 {
 .green {
   background-color: green;
 }
-.red {
-  background-color: red;
+.blue {
+  background-color: blue;
 }
 .brown {
   background-color: brown;
 }
 
 .cards-in-game {
+  display: flex;
+  gap: 5%;
   flex: 0 0 70%;
+}
+
+.cards-in-game img {
+  height: 20vw;
+  transition: ease-in 0.3s;
 }

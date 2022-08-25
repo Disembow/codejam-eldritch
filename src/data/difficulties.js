@@ -1,6 +1,6 @@
 export const difficulties = [
 	{
-		id: "very easy",
+		id: "readily",
 		name: "Очень лёгкая"
 	},
 	{
