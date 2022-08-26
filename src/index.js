@@ -62,8 +62,8 @@ const getActiveAncientObj = () => {
   for (let i = 0; i < Ancients.length; i++) {
     if (Ancients[i].name == activeAncient) {
       playsConditions = [Ancients[i].firstStage, Ancients[i].secondStage, Ancients[i].thirdStage];
-      console.log('Условия согласно древнему');
-      console.log(playsConditions);
+      // console.log('Условия согласно древнему');
+      // console.log(playsConditions);
     };
   };
 };
@@ -85,14 +85,15 @@ let levelOneDeck = [];
 let levelTwoDeck = [];
 let levelThreeDeck = [];
 let finalDeck = [];
+let sum = 0;
 
 const shuffleDeck = () => {
   levelOneDeck = []
   finalDeck = [];
   levelTwoDeck = [];
   levelThreeDeck = [];
-  console.log('Условия перед шафлом');
-  console.log(playsConditions);
+  // console.log('Условия перед шафлом');
+  // console.log(playsConditions);
   shuffle(greenCards);
   shuffle(blueCards);
   shuffle(brownCards);
@@ -102,8 +103,8 @@ const shuffleDeck = () => {
     blueCards.slice(0, sumBlueCards(playsConditions)), 
     brownCards.slice(0, sumBrownCards(playsConditions))
   ];
-  console.log('Рука перед распределением на этапы');
-  console.log(playDeck);
+  // console.log('Рука перед распределением на этапы');
+  // console.log(playDeck);
   
   // stage#1
   for (let i = 0; i < playsConditions[0].greenCards; i++) {
@@ -145,6 +146,7 @@ const shuffleDeck = () => {
   finalDeck = finalDeck.flat();
   console.log('Финальная рука');
   console.log(finalDeck);
+  sum = finalDeck.length - 1;
 }
 shuffleDeck();
 ancient1.addEventListener('click', shuffleDeck);
@@ -192,11 +194,19 @@ const cardShirt = document.querySelector('.deck');
 const cardFace = document.querySelector('.open-deck');
 
 
-let sum = finalDeck.length;
 cardShirt.addEventListener('click', () => {
-  sum--;
   cardFace.classList.remove('hidden');
   cardFace.setAttribute('src', finalDeck[sum].cardFace);
-  console.log(sum);
-  if (sum === 0) return;
+  if (sum === 0) {
+    cardShirt.classList.add('hidden');
+  };
+  if (+document.querySelector(`.${finalDeck[sum].color}.first`).innerText > 0) {
+    document.querySelector(`.${finalDeck[sum].color}.first`).innerText = +document.querySelector(`.${finalDeck[sum].color}.first`).innerText - 1;
+  } else if (+document.querySelector(`.${finalDeck[sum].color}.second`).innerText > 0) {
+    document.querySelector(`.${finalDeck[sum].color}.second`).innerText = +document.querySelector(`.${finalDeck[sum].color}.second`).innerText - 1;
+  } else {
+    document.querySelector(`.${finalDeck[sum].color}.third`).innerText = +document.querySelector(`.${finalDeck[sum].color}.third`).innerText - 1;
+  }
+  
+  sum--;
 });
