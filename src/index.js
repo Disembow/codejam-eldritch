@@ -207,6 +207,5 @@ cardShirt.addEventListener('click', () => {
   } else {
     document.querySelector(`.${finalDeck[sum].color}.third`).innerText = +document.querySelector(`.${finalDeck[sum].color}.third`).innerText - 1;
   }
-  
   sum--;
 });

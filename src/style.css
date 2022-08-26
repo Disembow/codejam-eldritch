@@ -81,7 +81,7 @@ h6 {
 }
 
 .cards-counter {
-  flex: 0 0 30%;
+  flex: 0 0 40%;
 }
 
 .stage-status {
@@ -89,15 +89,16 @@ h6 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 0 1% 0;
 }
 
 .stage-name {
   font-weight: 600;
+  margin: 10px 0 0 0;
 }
 
 .stage-cards {
   display: flex;
+  margin: 5px 0 0 0;
 }
 
 .dots {
@@ -124,11 +125,11 @@ h6 {
 .cards-in-game {
   display: flex;
   gap: 5%;
-  flex: 0 0 70%;
+  flex: 0 0 60%;
 }
 
 .cards-in-game img {
-  height: 20vw;
+  height: 30vh;
   transition: ease-in 0.3s;
 }
 
