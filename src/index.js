@@ -53,20 +53,22 @@ lvl4.addEventListener('click', chooseLVL);
 lvl5.addEventListener('click', chooseLVL);
 
 //-----------------------------------------------------------------------------
-// Get conditions for cards set------------------------------------------------
+// Get conditions for cards set -----------------------------------------------
 //-----------------------------------------------------------------------------
 
-let playsConditions = []; // []
+let playsConditions = [];
 const getActiveAncientObj = () => {
   let activeAncient = document.querySelector('.active').id;
   for (let i = 0; i < Ancients.length; i++) {
     if (Ancients[i].name == activeAncient) {
       playsConditions = [Ancients[i].firstStage, Ancients[i].secondStage, Ancients[i].thirdStage];
+      console.log('Условия согласно древнему');
       console.log(playsConditions);
     };
   };
 };
-console.log(playsConditions);
+getActiveAncientObj();
+// console.log(playsConditions);
 
 ancient1.addEventListener('click', getActiveAncientObj);
 ancient2.addEventListener('click', getActiveAncientObj);
@@ -74,55 +76,82 @@ ancient3.addEventListener('click', getActiveAncientObj);
 ancient4.addEventListener('click', getActiveAncientObj);
 
 //-----------------------------------------------------------------------------
-// Shuffle cards & create deck-------------------------------------------------
+// Shuffle cards & create deck ------------------------------------------------
 //-----------------------------------------------------------------------------
-
-shuffle(greenCards);
-shuffle(blueCards);
-shuffle(brownCards);
-
-let playDeck = [
-  greenCards.slice(0, sumGreenCards(playsConditions)), 
-  blueCards.slice(0, sumBlueCards(playsConditions)), 
-  brownCards.slice(0, sumBrownCards(playsConditions))
-];
-// console.log(playDeck);
 
 // Get deck for each level
 
 let levelOneDeck = [];
 let levelTwoDeck = [];
 let levelThreeDeck = [];
+let finalDeck = [];
 
-for (let i = 0; i < playsConditions[0].greenCards; i++) {
-  levelOneDeck.push(playDeck[0].pop());
-};
-for (let i = 0; i < playsConditions[1].greenCards; i++) {
-  levelTwoDeck.push(playDeck[0].pop());
-};
-for (let i = 0; i < playsConditions[2].greenCards; i++) {
-  levelThreeDeck.push(playDeck[0].pop());
-};
+const shuffleDeck = () => {
+  levelOneDeck = []
+  finalDeck = [];
+  levelTwoDeck = [];
+  levelThreeDeck = [];
+  console.log('Условия перед шафлом');
+  console.log(playsConditions);
+  shuffle(greenCards);
+  shuffle(blueCards);
+  shuffle(brownCards);
 
-for (let i = 0; i < playsConditions[0].blueCards; i++) {
-  levelOneDeck.push(playDeck[1].pop());
-};
-for (let i = 0; i < playsConditions[1].blueCards; i++) {
-  levelTwoDeck.push(playDeck[1].pop());
-};
-for (let i = 0; i < playsConditions[2].blueCards; i++) {
-  levelThreeDeck.push(playDeck[1].pop());
-};
+  let playDeck = [
+    greenCards.slice(0, sumGreenCards(playsConditions)), 
+    blueCards.slice(0, sumBlueCards(playsConditions)), 
+    brownCards.slice(0, sumBrownCards(playsConditions))
+  ];
+  console.log('Рука перед распределением на этапы');
+  console.log(playDeck);
+  
+  // stage#1
+  for (let i = 0; i < playsConditions[0].greenCards; i++) {
+    levelOneDeck.push(playDeck[0].pop());
+  };
+  for (let i = 0; i < playsConditions[1].greenCards; i++) {
+    levelTwoDeck.push(playDeck[0].pop());
+  };
+  for (let i = 0; i < playsConditions[2].greenCards; i++) {
+    levelThreeDeck.push(playDeck[0].pop());
+  };
+  // stage#2
+  for (let i = 0; i < playsConditions[0].blueCards; i++) {
+    levelOneDeck.push(playDeck[1].pop());
+  };
+  for (let i = 0; i < playsConditions[1].blueCards; i++) {
+    levelTwoDeck.push(playDeck[1].pop());
+  };
+  for (let i = 0; i < playsConditions[2].blueCards; i++) {
+    levelThreeDeck.push(playDeck[1].pop());
+  };
+  // stage#3
+  for (let i = 0; i < playsConditions[0].brownCards; i++) {
+    levelOneDeck.push(playDeck[2].pop());
+  };
+  for (let i = 0; i < playsConditions[1].brownCards; i++) {
+    levelTwoDeck.push(playDeck[2].pop());
+  };
+  for (let i = 0; i < playsConditions[2].brownCards; i++) {
+    levelThreeDeck.push(playDeck[2].pop());
+  };
+  
+  shuffle(levelOneDeck);
+  shuffle(levelTwoDeck);
+  shuffle(levelThreeDeck);
+  finalDeck.push(levelThreeDeck);
+  finalDeck.push(levelTwoDeck);
+  finalDeck.push(levelOneDeck);
+  finalDeck = finalDeck.flat();
+  console.log('Финальная рука');
+  console.log(finalDeck);
+}
+shuffleDeck();
+ancient1.addEventListener('click', shuffleDeck);
+ancient2.addEventListener('click', shuffleDeck);
+ancient3.addEventListener('click', shuffleDeck);
+ancient4.addEventListener('click', shuffleDeck);
 
-for (let i = 0; i < playsConditions[0].brownCards; i++) {
-  levelOneDeck.push(playDeck[2].pop());
-};
-for (let i = 0; i < playsConditions[1].brownCards; i++) {
-  levelTwoDeck.push(playDeck[2].pop());
-};
-for (let i = 0; i < playsConditions[2].brownCards; i++) {
-  levelThreeDeck.push(playDeck[2].pop());
-};
 
 // Set the number of cards into the counter
 const greenDotLVL1 = document.querySelector('.dots.green.first');
@@ -135,15 +164,39 @@ const greenDotLVL3 = document.querySelector('.dots.green.third');
 const blueDotLVL3 = document.querySelector('.dots.blue.third');
 const brownDotLVL3 = document.querySelector('.dots.brown.third');
 
-greenDotLVL1.innerText = `${colorCounter(levelOneDeck, 'green')}`
-greenDotLVL2.innerText = `${colorCounter(levelTwoDeck, 'green')}`
-greenDotLVL3.innerText = `${colorCounter(levelThreeDeck, 'green')}`
+const fillDots = () => {
+  greenDotLVL1.innerText = `${colorCounter(levelOneDeck, 'green')}`;
+  greenDotLVL2.innerText = `${colorCounter(levelTwoDeck, 'green')}`;
+  greenDotLVL3.innerText = `${colorCounter(levelThreeDeck, 'green')}`;
+  
+  brownDotLVL1.innerText = `${colorCounter(levelOneDeck, 'brown')}`;
+  brownDotLVL2.innerText = `${colorCounter(levelTwoDeck, 'brown')}`;
+  brownDotLVL3.innerText = `${colorCounter(levelThreeDeck, 'brown')}`;
+  
+  blueDotLVL1.innerText = `${colorCounter(levelOneDeck, 'blue')}`;
+  blueDotLVL2.innerText = `${colorCounter(levelTwoDeck, 'blue')}`;
+  blueDotLVL3.innerText = `${colorCounter(levelThreeDeck, 'blue')}`
+};
+fillDots();
 
-brownDotLVL1.innerText = `${colorCounter(levelOneDeck, 'brown')}`
-brownDotLVL2.innerText = `${colorCounter(levelTwoDeck, 'brown')}`
-brownDotLVL3.innerText = `${colorCounter(levelThreeDeck, 'brown')}`
+ancient1.addEventListener('click', fillDots);
+ancient2.addEventListener('click', fillDots);
+ancient3.addEventListener('click', fillDots);
+ancient4.addEventListener('click', fillDots);
 
-blueDotLVL1.innerText = `${colorCounter(levelOneDeck, 'blue')}`
-blueDotLVL2.innerText = `${colorCounter(levelTwoDeck, 'blue')}`
-blueDotLVL3.innerText = `${colorCounter(levelThreeDeck, 'blue')}`
+//-----------------------------------------------------------------------------
+// Turn cards -----------------------------------------------------------------
+//-----------------------------------------------------------------------------
 
+const cardShirt = document.querySelector('.deck');
+const cardFace = document.querySelector('.open-deck');
+
+
+let sum = finalDeck.length;
+cardShirt.addEventListener('click', () => {
+  sum--;
+  cardFace.classList.remove('hidden');
+  cardFace.setAttribute('src', finalDeck[sum].cardFace);
+  console.log(sum);
+  if (sum === 0) return;
+});

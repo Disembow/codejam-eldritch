@@ -22,8 +22,7 @@ h6 {
 }
 
 .ancients img:hover,
-.difficulty-level:hover,
-.cards-in-game img {
+.difficulty-level:hover {
   cursor: pointer;
   transition: ease-in 0.3s;
 }
@@ -131,4 +130,14 @@ h6 {
 .cards-in-game img {
   height: 20vw;
   transition: ease-in 0.3s;
+}
+
+.deck,
+.open-deck {
+  cursor: pointer;
+}
+
+.hidden {
+  opacity: 0;
+  cursor: auto;
 }
