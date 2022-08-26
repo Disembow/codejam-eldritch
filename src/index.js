@@ -1,16 +1,15 @@
 import { ancientsData as Ancients } from "./data/ancients.js";
 import { difficulties as Diff } from "./data/difficulties.js";
 import { brownCards, blueCards, greenCards } from "./data/mythicCards/index.js";
-import { sumCards, sumGreenCards, sumBlueCards, sumBrownCards } from "./func/cardsum";
-// import { getRandomCard, shuffle  } from "./func/shuffle";
-import { shuffle  } from "./func/shuffle";
+import { shuffle } from "./func/shuffle";
+import { sumGreenCards, sumBlueCards, sumBrownCards } from "./func/cardsum";
+import { colorCounter } from "./func/colorCounter";
 
 // console.log(Ancients)
 // console.log(Diff)
-console.log(brownCards)
-console.log(blueCards)
-console.log(greenCards)
-
+// console.log(brownCards)
+// console.log(blueCards)
+// console.log(greenCards)
 
 //-----------------------------------------------------------------------------
 // Choose the Ancient----------------------------------------------------------
@@ -57,21 +56,17 @@ lvl5.addEventListener('click', chooseLVL);
 // Get conditions for cards set------------------------------------------------
 //-----------------------------------------------------------------------------
 
-let playsConditions = [];
-let cardsNumber = [];
-
+let playsConditions = []; // []
 const getActiveAncientObj = () => {
   let activeAncient = document.querySelector('.active').id;
   for (let i = 0; i < Ancients.length; i++) {
     if (Ancients[i].name == activeAncient) {
       playsConditions = [Ancients[i].firstStage, Ancients[i].secondStage, Ancients[i].thirdStage];
-      cardsNumber = [sumGreenCards(playsConditions), sumBlueCards(playsConditions), sumBrownCards(playsConditions)]
-      // console.log(sumCards(playsConditions));
-      // console.log(playsConditions);
-      // console.log(cardsNumber);
+      console.log(playsConditions);
     };
   };
 };
+console.log(playsConditions);
 
 ancient1.addEventListener('click', getActiveAncientObj);
 ancient2.addEventListener('click', getActiveAncientObj);
@@ -79,52 +74,76 @@ ancient3.addEventListener('click', getActiveAncientObj);
 ancient4.addEventListener('click', getActiveAncientObj);
 
 //-----------------------------------------------------------------------------
-// Get set of cards to play depending on the difficulty------------------------
+// Shuffle cards & create deck-------------------------------------------------
 //-----------------------------------------------------------------------------
 
-let greenCardsSet = [];
-let blueCardsSet = [];
-let brownCardsSet = [];
+shuffle(greenCards);
+shuffle(blueCards);
+shuffle(brownCards);
 
-console.log(greenCardsSet);
-console.log(blueCardsSet);
-console.log(brownCardsSet);
+let playDeck = [
+  greenCards.slice(0, sumGreenCards(playsConditions)), 
+  blueCards.slice(0, sumBlueCards(playsConditions)), 
+  brownCards.slice(0, sumBrownCards(playsConditions))
+];
+// console.log(playDeck);
 
+// Get deck for each level
 
-//-----------------------------------------------------------------------------
-// Get numbers of cards by condition of Ancient--------------------------------
-//-----------------------------------------------------------------------------
+let levelOneDeck = [];
+let levelTwoDeck = [];
+let levelThreeDeck = [];
 
+for (let i = 0; i < playsConditions[0].greenCards; i++) {
+  levelOneDeck.push(playDeck[0].pop());
+};
+for (let i = 0; i < playsConditions[1].greenCards; i++) {
+  levelTwoDeck.push(playDeck[0].pop());
+};
+for (let i = 0; i < playsConditions[2].greenCards; i++) {
+  levelThreeDeck.push(playDeck[0].pop());
+};
 
+for (let i = 0; i < playsConditions[0].blueCards; i++) {
+  levelOneDeck.push(playDeck[1].pop());
+};
+for (let i = 0; i < playsConditions[1].blueCards; i++) {
+  levelTwoDeck.push(playDeck[1].pop());
+};
+for (let i = 0; i < playsConditions[2].blueCards; i++) {
+  levelThreeDeck.push(playDeck[1].pop());
+};
 
-//-----------------------------------------------------------------------------
-// Get difficulty level--------------------------------------------------------
-//-----------------------------------------------------------------------------
-// const getDifficultyLevel = () => {
-//   let difficultyLevel = document.querySelector('.active2').id;
-//   console.log(difficultyLevel);
-//   return difficultyLevel;
-// };
+for (let i = 0; i < playsConditions[0].brownCards; i++) {
+  levelOneDeck.push(playDeck[2].pop());
+};
+for (let i = 0; i < playsConditions[1].brownCards; i++) {
+  levelTwoDeck.push(playDeck[2].pop());
+};
+for (let i = 0; i < playsConditions[2].brownCards; i++) {
+  levelThreeDeck.push(playDeck[2].pop());
+};
 
-// lvl1.addEventListener('click', getDifficultyLevel);
-// lvl2.addEventListener('click', getDifficultyLevel);
-// lvl3.addEventListener('click', getDifficultyLevel);
-// lvl4.addEventListener('click', getDifficultyLevel);
-// lvl5.addEventListener('click', getDifficultyLevel);
+// Set the number of cards into the counter
+const greenDotLVL1 = document.querySelector('.dots.green.first');
+const blueDotLVL1 = document.querySelector('.dots.blue.first');
+const brownDotLVL1 = document.querySelector('.dots.brown.first');
+const greenDotLVL2 = document.querySelector('.dots.green.second');
+const blueDotLVL2 = document.querySelector('.dots.blue.second');
+const brownDotLVL2 = document.querySelector('.dots.brown.second');
+const greenDotLVL3 = document.querySelector('.dots.green.third');
+const blueDotLVL3 = document.querySelector('.dots.blue.third');
+const brownDotLVL3 = document.querySelector('.dots.brown.third');
 
+greenDotLVL1.innerText = `${colorCounter(levelOneDeck, 'green')}`
+greenDotLVL2.innerText = `${colorCounter(levelTwoDeck, 'green')}`
+greenDotLVL3.innerText = `${colorCounter(levelThreeDeck, 'green')}`
 
-//-----------------------------------------------------------------------------
-// Number of cards by Ancient--------------------------------------------------
-//-----------------------------------------------------------------------------
+brownDotLVL1.innerText = `${colorCounter(levelOneDeck, 'brown')}`
+brownDotLVL2.innerText = `${colorCounter(levelTwoDeck, 'brown')}`
+brownDotLVL3.innerText = `${colorCounter(levelThreeDeck, 'brown')}`
 
-// const greenDotLVL1 = document.querySelector('.dots, .green, .first');
-// const blueDotLVL1 = document.querySelector('.dots, .blue, .first');
-// const brownDotLVL1 = document.querySelector('.dots, .brown, .first');
-// const greenDotLVL2 = document.querySelector('.dots, .green, .second');
-// const blueDotLVL2 = document.querySelector('.dots, .blue, .second');
-// const brownDotLVL2 = document.querySelector('.dots, .brown, .second');
-// const greenDotLVL3 = document.querySelector('.dots, .green, .third');
-// const blueDotLVL3 = document.querySelector('.dots, .blue, .third');
-// const brownDotLVL3 = document.querySelector('.dots, .brown, .third');
-
+blueDotLVL1.innerText = `${colorCounter(levelOneDeck, 'blue')}`
+blueDotLVL2.innerText = `${colorCounter(levelTwoDeck, 'blue')}`
+blueDotLVL3.innerText = `${colorCounter(levelThreeDeck, 'blue')}`
 
