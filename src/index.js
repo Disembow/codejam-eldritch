@@ -11,7 +11,7 @@ import { colorCounter } from "./func/colorCounter";
 // console.log(blueCards)
 // console.log(greenCards)
 
-
+console.log('* - Отдельной кнопки сделать замест нет.\n** - Замес колоды происходит в момент выбора древнего и/или выбора уровня сложности.\n** - Если смена древнего либо уровня сложности происходит после начала игры, колода замешивается заново.')
 
 //-----------------------------------------------------------------------------
 // Choose the Ancient----------------------------------------------------------
@@ -69,13 +69,10 @@ const getActiveAncientObj = () => {
   for (let i = 0; i < Ancients.length; i++) {
     if (Ancients[i].name == activeAncient) {
       playsConditions = [Ancients[i].firstStage, Ancients[i].secondStage, Ancients[i].thirdStage];
-      // console.log('Условия согласно древнему');
-      // console.log(playsConditions);
     };
   };
 };
 getActiveAncientObj();
-// console.log(playsConditions);
 
 ancient1.addEventListener('click', getActiveAncientObj);
 ancient2.addEventListener('click', getActiveAncientObj);
@@ -87,8 +84,6 @@ ancient4.addEventListener('click', getActiveAncientObj);
 //-----------------------------------------------------------------------------
 
 // Get deck for each level
-
-
 let levelOneDeck = [];
 let levelTwoDeck = [];
 let levelThreeDeck = [];
@@ -101,7 +96,7 @@ const shuffleDeck = () => {
   levelTwoDeck = [];
   levelThreeDeck = [];
   finalDeck = [];
-  console.log('Условия перед шафлом');
+  console.log('== Условия согласно древнему:');
   console.log(playsConditions);
   shuffle(greenCards);
   shuffle(blueCards);
@@ -186,7 +181,7 @@ const shuffleDeck = () => {
   finalDeck.push(levelTwoDeck);
   finalDeck.push(levelOneDeck);
   finalDeck = finalDeck.flat();
-  console.log('Финальная рука');
+  console.log('== Финальная рука (карты расположены в обратном порядке 3 этап --> 1 этап):');
   console.log(finalDeck);
   sum = finalDeck.length - 1;
 }
