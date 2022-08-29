@@ -22,5 +22,13 @@ const sumBrownCards = (arr) => {
   return cardsSum;
 };
 
+const sumAllCards = (arr) => {
+  let cardsSum = 0;
+  for (let i = 0; i < arr.length; i++) {
+    cardsSum += arr[i];
+  }
+  return cardsSum;
+};
 
-export { sumGreenCards, sumBlueCards, sumBrownCards };
+
+export { sumGreenCards, sumBlueCards, sumBrownCards, sumAllCards };

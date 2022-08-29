@@ -2,7 +2,7 @@ import { ancientsData as Ancients } from "./data/ancients.js";
 import { difficulties as Diff } from "./data/difficulties.js";
 import { brownCards, blueCards, greenCards } from "./data/mythicCards/index.js";
 import { shuffle } from "./func/shuffle";
-import { sumGreenCards, sumBlueCards, sumBrownCards } from "./func/cardsum";
+import { sumGreenCards, sumBlueCards, sumBrownCards, sumAllCards } from "./func/cardsum";
 import { colorCounter } from "./func/colorCounter";
 
 // console.log(Ancients)
@@ -10,6 +10,8 @@ import { colorCounter } from "./func/colorCounter";
 // console.log(brownCards)
 // console.log(blueCards)
 // console.log(greenCards)
+
+
 
 //-----------------------------------------------------------------------------
 // Choose the Ancient----------------------------------------------------------
@@ -40,6 +42,7 @@ const lvl4 = document.getElementById('hard');
 const lvl5 = document.getElementById('nightmare');
 const chooseLVL = (e) => {
   const lvlAll = document.querySelectorAll('.difficulty-level');
+  cardFace.classList.contains('hidden') ? '' : cardFace.classList.add('hidden');
   for(let i = 0; i < lvlAll.length; i++) {
     lvlAll[i].classList.remove('active2');
   };
@@ -100,24 +103,19 @@ const shuffleDeck = () => {
   finalDeck = [];
   console.log('Условия перед шафлом');
   console.log(playsConditions);
-  //----------------------
   shuffle(greenCards);
   shuffle(blueCards);
   shuffle(brownCards);
-  //----------------------
-  
-  // let playDeck = [
-  //   greenCards.slice(0, sumGreenCards(playsConditions)), 
-  //   brownCards.slice(0, sumBrownCards(playsConditions)),
-  //   blueCards.slice(0, sumBlueCards(playsConditions)), 
-  // ];
-  // console.log('Количество карт перед распределением на этапы');
-  // console.log(playDeck);
 
   let playDeck = [];
 
   switch (difficulty) {
     case 'readily':
+      playDeck = [
+        greenCards.filter(c => c.difficulty === 'easy' || c.difficulty === 'normal').slice(0, sumGreenCards(playsConditions)),
+        brownCards.filter(c => c.difficulty === 'easy' || c.difficulty === 'normal').slice(0, sumBrownCards(playsConditions)),
+        blueCards.filter(c => c.difficulty === 'easy' || c.difficulty === 'normal').slice(0, sumBlueCards(playsConditions)),
+      ];
       break;
     case 'easy':
       playDeck = [
@@ -140,7 +138,12 @@ const shuffleDeck = () => {
         blueCards.filter(c => c.difficulty === 'hard' || c.difficulty === 'normal').slice(0, sumBlueCards(playsConditions)),
       ];
       break;
-    case 'nightmare':
+      case 'nightmare':
+        playDeck = [
+          greenCards.filter(c => c.difficulty === 'hard' || c.difficulty === 'normal').slice(0, sumGreenCards(playsConditions)),
+          brownCards.filter(c => c.difficulty === 'hard' || c.difficulty === 'normal').slice(0, sumBrownCards(playsConditions)),
+          blueCards.filter(c => c.difficulty === 'hard' || c.difficulty === 'normal').slice(0, sumBlueCards(playsConditions)),
+        ];
       break;
   };
 
@@ -180,14 +183,8 @@ const shuffleDeck = () => {
   shuffle(levelTwoDeck);
   shuffle(levelThreeDeck);
   finalDeck.push(levelThreeDeck);
-  console.log('3V');
-  console.log(levelThreeDeck);
   finalDeck.push(levelTwoDeck);
-  console.log('2V');
-  console.log(levelTwoDeck);
   finalDeck.push(levelOneDeck);
-  console.log('1V');
-  console.log(levelOneDeck);
   finalDeck = finalDeck.flat();
   console.log('Финальная рука');
   console.log(finalDeck);
@@ -235,6 +232,11 @@ ancient1.addEventListener('click', fillDots);
 ancient2.addEventListener('click', fillDots);
 ancient3.addEventListener('click', fillDots);
 ancient4.addEventListener('click', fillDots);
+lvl1.addEventListener('click', fillDots);
+lvl2.addEventListener('click', fillDots);
+lvl3.addEventListener('click', fillDots);
+lvl4.addEventListener('click', fillDots);
+lvl5.addEventListener('click', fillDots);
 
 //-----------------------------------------------------------------------------
 // Turn cards -----------------------------------------------------------------
