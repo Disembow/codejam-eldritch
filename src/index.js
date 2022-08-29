@@ -56,7 +56,9 @@ lvl5.addEventListener('click', chooseLVL);
 // Get conditions for cards set -----------------------------------------------
 //-----------------------------------------------------------------------------
 
+const cardFace = document.querySelector('.open-deck');
 let playsConditions = [];
+
 const getActiveAncientObj = () => {
   let activeAncient = document.querySelector('.active').id;
   for (let i = 0; i < Ancients.length; i++) {
@@ -66,6 +68,7 @@ const getActiveAncientObj = () => {
       // console.log(playsConditions);
     };
   };
+  cardFace.classList.contains('hidden') ? '' : cardFace.classList.add('hidden');
 };
 getActiveAncientObj();
 // console.log(playsConditions);
@@ -81,6 +84,7 @@ ancient4.addEventListener('click', getActiveAncientObj);
 
 // Get deck for each level
 
+
 let levelOneDeck = [];
 let levelTwoDeck = [];
 let levelThreeDeck = [];
@@ -92,8 +96,8 @@ const shuffleDeck = () => {
   finalDeck = [];
   levelTwoDeck = [];
   levelThreeDeck = [];
-  // console.log('Условия перед шафлом');
-  // console.log(playsConditions);
+  console.log('Условия перед шафлом');
+  console.log(playsConditions);
   shuffle(greenCards);
   shuffle(blueCards);
   shuffle(brownCards);
@@ -191,8 +195,6 @@ ancient4.addEventListener('click', fillDots);
 //-----------------------------------------------------------------------------
 
 const cardShirt = document.querySelector('.deck');
-const cardFace = document.querySelector('.open-deck');
-
 
 cardShirt.addEventListener('click', () => {
   cardFace.classList.remove('hidden');
