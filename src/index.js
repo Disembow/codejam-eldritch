@@ -44,6 +44,7 @@ const chooseLVL = (e) => {
     lvlAll[i].classList.remove('active2');
   };
   e.target.classList.add('active2');
+  // console.log(document.querySelector('.active2').id);
 };
 
 lvl1.addEventListener('click', chooseLVL);
@@ -60,6 +61,7 @@ const cardFace = document.querySelector('.open-deck');
 let playsConditions = [];
 
 const getActiveAncientObj = () => {
+  cardFace.classList.contains('hidden') ? '' : cardFace.classList.add('hidden');
   let activeAncient = document.querySelector('.active').id;
   for (let i = 0; i < Ancients.length; i++) {
     if (Ancients[i].name == activeAncient) {
@@ -68,7 +70,6 @@ const getActiveAncientObj = () => {
       // console.log(playsConditions);
     };
   };
-  cardFace.classList.contains('hidden') ? '' : cardFace.classList.add('hidden');
 };
 getActiveAncientObj();
 // console.log(playsConditions);
@@ -92,23 +93,57 @@ let finalDeck = [];
 let sum = 0;
 
 const shuffleDeck = () => {
+  let difficulty = document.querySelector('.active2').id;
   levelOneDeck = []
-  finalDeck = [];
   levelTwoDeck = [];
   levelThreeDeck = [];
+  finalDeck = [];
   console.log('Условия перед шафлом');
   console.log(playsConditions);
+  //----------------------
   shuffle(greenCards);
   shuffle(blueCards);
   shuffle(brownCards);
-
-  let playDeck = [
-    greenCards.slice(0, sumGreenCards(playsConditions)), 
-    blueCards.slice(0, sumBlueCards(playsConditions)), 
-    brownCards.slice(0, sumBrownCards(playsConditions))
-  ];
-  // console.log('Рука перед распределением на этапы');
+  //----------------------
+  
+  // let playDeck = [
+  //   greenCards.slice(0, sumGreenCards(playsConditions)), 
+  //   brownCards.slice(0, sumBrownCards(playsConditions)),
+  //   blueCards.slice(0, sumBlueCards(playsConditions)), 
+  // ];
+  // console.log('Количество карт перед распределением на этапы');
   // console.log(playDeck);
+
+  let playDeck = [];
+
+  switch (difficulty) {
+    case 'readily':
+      break;
+    case 'easy':
+      playDeck = [
+        greenCards.filter(c => c.difficulty === 'easy' || c.difficulty === 'normal').slice(0, sumGreenCards(playsConditions)),
+        brownCards.filter(c => c.difficulty === 'easy' || c.difficulty === 'normal').slice(0, sumBrownCards(playsConditions)),
+        blueCards.filter(c => c.difficulty === 'easy' || c.difficulty === 'normal').slice(0, sumBlueCards(playsConditions)),
+      ];
+      break;
+    case 'normal':
+      playDeck = [
+        greenCards.slice(0, sumGreenCards(playsConditions)), 
+        brownCards.slice(0, sumBrownCards(playsConditions)),
+        blueCards.slice(0, sumBlueCards(playsConditions)), 
+      ];  
+    break;
+    case 'hard':
+      playDeck = [
+        greenCards.filter(c => c.difficulty === 'hard' || c.difficulty === 'normal').slice(0, sumGreenCards(playsConditions)),
+        brownCards.filter(c => c.difficulty === 'hard' || c.difficulty === 'normal').slice(0, sumBrownCards(playsConditions)),
+        blueCards.filter(c => c.difficulty === 'hard' || c.difficulty === 'normal').slice(0, sumBlueCards(playsConditions)),
+      ];
+      break;
+    case 'nightmare':
+      break;
+  };
+
   
   // stage#1
   for (let i = 0; i < playsConditions[0].greenCards; i++) {
@@ -121,23 +156,23 @@ const shuffleDeck = () => {
     levelThreeDeck.push(playDeck[0].pop());
   };
   // stage#2
-  for (let i = 0; i < playsConditions[0].blueCards; i++) {
+  for (let i = 0; i < playsConditions[0].brownCards; i++) {
     levelOneDeck.push(playDeck[1].pop());
   };
-  for (let i = 0; i < playsConditions[1].blueCards; i++) {
+  for (let i = 0; i < playsConditions[1].brownCards; i++) {
     levelTwoDeck.push(playDeck[1].pop());
   };
-  for (let i = 0; i < playsConditions[2].blueCards; i++) {
+  for (let i = 0; i < playsConditions[2].brownCards; i++) {
     levelThreeDeck.push(playDeck[1].pop());
   };
   // stage#3
-  for (let i = 0; i < playsConditions[0].brownCards; i++) {
+  for (let i = 0; i < playsConditions[0].blueCards; i++) {
     levelOneDeck.push(playDeck[2].pop());
   };
-  for (let i = 0; i < playsConditions[1].brownCards; i++) {
+  for (let i = 0; i < playsConditions[1].blueCards; i++) {
     levelTwoDeck.push(playDeck[2].pop());
   };
-  for (let i = 0; i < playsConditions[2].brownCards; i++) {
+  for (let i = 0; i < playsConditions[2].blueCards; i++) {
     levelThreeDeck.push(playDeck[2].pop());
   };
   
@@ -145,8 +180,14 @@ const shuffleDeck = () => {
   shuffle(levelTwoDeck);
   shuffle(levelThreeDeck);
   finalDeck.push(levelThreeDeck);
+  console.log('3V');
+  console.log(levelThreeDeck);
   finalDeck.push(levelTwoDeck);
+  console.log('2V');
+  console.log(levelTwoDeck);
   finalDeck.push(levelOneDeck);
+  console.log('1V');
+  console.log(levelOneDeck);
   finalDeck = finalDeck.flat();
   console.log('Финальная рука');
   console.log(finalDeck);
@@ -157,6 +198,11 @@ ancient1.addEventListener('click', shuffleDeck);
 ancient2.addEventListener('click', shuffleDeck);
 ancient3.addEventListener('click', shuffleDeck);
 ancient4.addEventListener('click', shuffleDeck);
+lvl1.addEventListener('click', shuffleDeck);
+lvl2.addEventListener('click', shuffleDeck);
+lvl3.addEventListener('click', shuffleDeck);
+lvl4.addEventListener('click', shuffleDeck);
+lvl5.addEventListener('click', shuffleDeck);
 
 
 // Set the number of cards into the counter
